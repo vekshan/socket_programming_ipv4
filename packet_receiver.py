@@ -1,7 +1,7 @@
 import binascii
 import socket
 
-
+######### MAIN ###########
 HEADER_SIZE = 40
 SERVER = socket.gethostname()
 PORT = 1234
