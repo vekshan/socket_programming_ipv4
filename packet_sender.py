@@ -1,5 +1,6 @@
 import binascii
 import socket
+import sys
 
 
 def checksum():
@@ -8,37 +9,45 @@ def checksum():
 
 
 ######### MAIN ###########
-HEADER_SIZE = 40
-SERVER = socket.gethostbyname(socket.gethostname())
+PACKET_SIZE = 40
+HEADER_SIZE = 20
+DESTINATIONIP = socket.gethostbyname(socket.gethostname())
+SOURCEIP = sys.argv[2]
 PORT = 1234
 
-
 # TODO get user input
-msg = ""
+msg = sys.argv[4]
 
-HEADER = bytes(
-    "4500 0028 1c46 4000 4006 0000 C0A8 0003 C0A8 0001".replace(" ", ""), "utf-8"
-)  # for testing only, should be done below
-
-msg = "COLOMBIA 2 - MESSI 0"
-
+# get data for variable fields in IP Header:
 # encode msg
 msg = binascii.hexlify(bytes(msg, "utf-8"))
 
 # calculate total length of IP header, payload + 20 for header, convert to hex
-msg_length = "{:04X}".format(len(msg) + 20)
+total_length_hex = "{:04X}".format((len(msg) // 2) + HEADER_SIZE)
 
 # convert ip addresses to hex
-print("You IP Address is: " + SERVER)
-IPHex = binascii.hexlify(socket.inet_aton(SERVER)).upper()
+DESTINATIONIP_HEX = binascii.hexlify(socket.inet_aton(DESTINATIONIP))
+SOURCEIP_HEX = binascii.hexlify(socket.inet_aton(SOURCEIP))
+
+# combine to make IP header (initial before encode):
+header_str = (
+    "4500 "
+    + total_length_hex
+    + " 1c46 4000 4006 0000 "
+    + DESTINATIONIP_HEX.decode("utf-8")
+    + SOURCEIP_HEX.decode("utf-8")
+    + msg.decode("utf-8")
+)
+
+HEADER = bytes(header_str.replace(" ", ""), "utf-8")
+
+print(HEADER)
 
 # calculate checksum in hex
 
-
 # concatenate header and convert to bytes
 
-
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((SERVER, PORT))
+    s.connect((DESTINATIONIP, PORT))
     msg = HEADER + msg
     s.send(msg)
