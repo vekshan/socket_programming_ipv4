@@ -2,16 +2,33 @@ import binascii
 import socket
 import sys
 
+# Method for encoding (at the client side):
+def calculate_checksum(list_str):
+    header_list = list_str.split(" ")
+    header_list_hex = [int(i, 16) for i in header_list]
+    total = hex(sum(header_list_hex))
+    total_list = list(total)[2:]
+
+    if len(total_list) % 4 != 0:
+        result = "".join(
+            list(hex(int(total_list[0], 16) + int("".join(total_list[1:]), 16)))[2:]
+        )
+    else:
+        result = "".join(total_list)
+
+    return "".join(list(hex(int("FFFF", 16) - int(result, 16))))[2:]
+
+
 ######### MAIN ###########
 IPHEADER_SIZE = 40
 HEADER_SIZE = 20
 DESTINATIONIP = socket.gethostbyname(socket.gethostname())
 # DESTINATIONIP = "192.168.0.3"
-SOURCEIP = sys.argv[2]
 PORT = 1234
 
-# TODO get user input
+# get user inputs
 msg = sys.argv[4]
+SOURCEIP = sys.argv[2]
 
 # get data for variable fields in IP Header:
 # encode msg
@@ -35,20 +52,7 @@ header_str = (
 )
 
 # calculate checksum in hex
-
-header_list = header_str.split(" ")
-header_list_hex = [int(i, 16) for i in header_list]
-total = hex(sum(header_list_hex))
-total_list = list(total)[2:]
-
-if len(total_list) % 4 != 0:
-    result = "".join(
-        list(hex(int(total_list[0], 16) + int("".join(total_list[1:]), 16)))[2:]
-    )
-else:
-    result = "".join(total_list)
-
-checksum = "".join(list(hex(int("FFFF", 16) - int(result, 16))))[2:]
+checksum = calculate_checksum(header_str)
 
 # concatenate header and convert to bytes
 header_str = (
