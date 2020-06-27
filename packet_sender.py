@@ -72,11 +72,9 @@ if len(ip_header_str) % 8 != 0:
     added_zeros = num_of_zeros * "0"
     ip_header_str = ip_header_str + added_zeros
 
-HEADER = bytes(header_str.replace(" ", ""), "utf-8")
-
 IPHEADER = bytes(ip_header_str, "utf-8")
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((DESTINATIONIP, PORT))
-    msg = IPHEADER + msg
+    msg = IPHEADER
     s.send(msg)

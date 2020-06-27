@@ -45,4 +45,4 @@ or
 py packet_sender.py -server 192.168.0.1 -payload "COLOMBIA 2 - MESSI 0"
 ```
 
-- As you will see, the client will read the data from the user and send the encoded stream to the server through socket. Thereafter, the server will acknowledge the client that the encoded stream has been received, where it decodes the stream and prints it on the screen.
+- As you will see, the client will read the data from the user and send the encoded stream to the server through socket. Thereafter, the server will acknowledge the client that the encoded stream has been received, where it decodes the stream and prints it on the screen. The connection terminates after a message is received.
