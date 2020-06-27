@@ -32,7 +32,7 @@ DESTINATIONIP = sys.argv[2]
 # encode msg
 msg = binascii.hexlify(bytes(msg, "utf-8"))
 
-# Check for Padding
+# check for padding (assuming from Piazza that professor does not want it)
 # if ((len(msg) // 2) + HEADER_SIZE) % 8 != 0:
 #     IPHEADER_SIZE = (len(msg) // 2) + HEADER_SIZE
 #     num_of_zeros = 8 - (IPHEADER_SIZE % 8)
@@ -58,10 +58,10 @@ header_str = (
     + DESTINATIONIP_HEX.decode("utf-8")
 )
 
-# calculate checksum in hex
+# calculate checksum in hex:
 checksum = calculate_checksum(header_str)
 
-# concatenate header and convert to bytes
+# concatenate header and convert to bytes:
 header_str = (
     "4500 "
     + total_length_hex

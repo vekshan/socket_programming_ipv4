@@ -80,4 +80,3 @@ else:
     print(
         "The verification of the checksum demonstrates that the packet received is corrupted. Packet discarded!"
     )
-
