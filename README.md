@@ -39,6 +39,8 @@ py packet_receiver.py
 python packet_sender.py -server 192.168.0.1 -payload "COLOMBIA 2 - MESSI 0"
 ```
 
+or
+
 ```
 py packet_sender.py -server 192.168.0.1 -payload "COLOMBIA 2 - MESSI 0"
 ```
