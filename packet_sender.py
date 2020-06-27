@@ -20,15 +20,13 @@ def calculate_checksum(list_str):
 
 
 ######### MAIN ###########
-IPHEADER_SIZE = 40
 HEADER_SIZE = 20
-DESTINATIONIP = socket.gethostbyname(socket.gethostname())
-# DESTINATIONIP = "192.168.0.3"
+SOURCEIP = socket.gethostbyname(socket.gethostname())
 PORT = 1234
 
 # get user inputs
 msg = sys.argv[4]
-SOURCEIP = sys.argv[2]
+DESTINATIONIP = sys.argv[2]
 
 # get data for variable fields in IP Header:
 # encode msg
@@ -46,9 +44,9 @@ header_str = (
     "4500 "
     + total_length_hex
     + " 1c46 4000 4006 0000 "
-    + DESTINATIONIP_HEX.decode("utf-8")
-    + " "
     + SOURCEIP_HEX.decode("utf-8")
+    + " "
+    + DESTINATIONIP_HEX.decode("utf-8")
 )
 
 # calculate checksum in hex
@@ -61,16 +59,22 @@ header_str = (
     + " 1c46 4000 4006 "
     + checksum
     + " "
-    + DESTINATIONIP_HEX.decode("utf-8")
-    + " "
     + SOURCEIP_HEX.decode("utf-8")
+    + " "
+    + DESTINATIONIP_HEX.decode("utf-8")
 )
 
-ip_header_str = header_str + msg.decode("utf-8")
+ip_header_str = (header_str + msg.decode("utf-8")).replace(" ", "")
 
-HEADER = bytes(header_str, "utf-8")
+if len(ip_header_str) % 8 != 0:
+    IPHEADER_SIZE = len(ip_header_str)
+    num_of_zeros = 8 - (IPHEADER_SIZE % 8)
+    added_zeros = num_of_zeros * "0"
+    ip_header_str = ip_header_str + added_zeros
 
-IPHEADER = bytes(ip_header_str.replace(" ", ""), "utf-8")
+HEADER = bytes(header_str.replace(" ", ""), "utf-8")
+
+IPHEADER = bytes(ip_header_str, "utf-8")
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((DESTINATIONIP, PORT))
