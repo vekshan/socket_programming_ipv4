@@ -44,7 +44,7 @@ else:
     msg_str = (msg.decode("utf-8")).replace(" ", "")
 
 # calculate total length of IP header, payload + 20 for header, convert to hex
-total_length_hex = "{:04X}".format((len(msg) // 2) + HEADER_SIZE)
+total_length_hex = "{:04X}".format((len(msg)) + HEADER_SIZE)
 
 # convert ip addresses to hex
 DESTINATIONIP_HEX = binascii.hexlify(socket.inet_aton(DESTINATIONIP), b" ", -2)
