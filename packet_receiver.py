@@ -47,7 +47,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             if len(msg) - HEADER_SIZE == msg_length:
                 print(verify_checksum(msg))
-                # print(msg)
+                print(msg)
                 break
 
 
