@@ -11,7 +11,7 @@ Completed by Group #23: Sukhsimranpreet Sekhon (300018861) & Vekshan Bundhoo (30
 
 ### Used Technology & Libraries:
 
-- Python Version: 3.8.3 32-bit
+- Python Version: 3.8.3 (**NOTE** binascii library will throw an error for a version of python less than 3.8 )
 - Created on Windows 10 using Visual Studio
 - binascii module - Convert between binary and ASCII
 - socket - Low-level networking interface
@@ -24,10 +24,20 @@ Note: Use two occurences of the same command line tool, such as cmd or git bash,
 - On one of the command line tools, run the packet_receiver.py file. For example, if you were using cmd:
 
 ```
+python packet_receiver.py
+```
+
+or
+
+```
 py packet_receiver.py
 ```
 
-- On the second command line tool, run the packet_sender.py file. However, this file needs to take in the server address (source IP address) and the message that the user wants to send (should be of size 20 bytes) as arguments. For example, if you were using cmd:
+- On the second command line tool, run the packet_sender.py file. However, this file needs to take in the server address (destination IP address) and the message that the user wants to send (should be of size 20 bytes) as arguments. For example, if you were using cmd:
+
+```
+python packet_sender.py -server 192.168.0.1 -payload "COLOMBIA 2 - MESSI 0"
+```
 
 ```
 py packet_sender.py -server 192.168.0.1 -payload "COLOMBIA 2 - MESSI 0"
