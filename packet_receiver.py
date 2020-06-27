@@ -38,14 +38,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         msg_length = 0
         while True:
             # should be either message size or header size to fix
-            data = conn.recv(HEADER_SIZE)
+            data = conn.recv(HEADER_SIZE*2)
             if receiving:
-                msg_length = int(data[4:8], 16)
+                msg_length = int(data[4:8], 16) * 2
                 print(f"new message length:{msg_length}")
+                print(data)
                 receiving = False
             msg += data.decode("utf-8")
 
-            if len(msg) - HEADER_SIZE == msg_length:
+            if len(msg) == msg_length:
                 print(verify_checksum(msg))
                 print(msg)
                 break
