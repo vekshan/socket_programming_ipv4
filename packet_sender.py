@@ -32,9 +32,6 @@ DESTINATIONIP = sys.argv[2]
 # (Check for Padding) encode msg
 msg = binascii.hexlify(bytes(msg, "utf-8"))
 
-print(msg)
-print(len(msg))
-
 if ((len(msg) // 2) + HEADER_SIZE) % 8 != 0:
     IPHEADER_SIZE = (len(msg) // 2) + HEADER_SIZE
     num_of_zeros = 8 - (IPHEADER_SIZE % 8)
@@ -44,7 +41,7 @@ else:
     msg_str = (msg.decode("utf-8")).replace(" ", "")
 
 # calculate total length of IP header, payload + 20 for header, convert to hex
-total_length_hex = "{:04X}".format((len(msg)) + HEADER_SIZE)
+total_length_hex = "{:04X}".format((len(msg) // 2) + HEADER_SIZE)
 
 # convert ip addresses to hex
 DESTINATIONIP_HEX = binascii.hexlify(socket.inet_aton(DESTINATIONIP), b" ", -2)
