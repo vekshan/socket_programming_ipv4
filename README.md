@@ -11,8 +11,8 @@ Completed by Group #23: Sukhsimranpreet Sekhon (300018861) & Vekshan Bundhoo (30
 
 ### Used Technology & Libraries:
 
-- Python Version: 3.8.3 
---**NOTE:** binascii library will throw an error for a version of python less than 3.8 
+- Python Version: 3.8.3   
+- - **NOTE:** binascii library will throw an error for a version of python less than 3.8 
 - Created on Windows 10 using Visual Studio
 - binascii module - Convert between binary and ASCII
 - socket - Low-level networking interface
