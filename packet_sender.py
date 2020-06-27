@@ -29,16 +29,17 @@ msg = sys.argv[4]
 DESTINATIONIP = sys.argv[2]
 
 # get data for variable fields in IP Header:
-# (Check for Padding) encode msg
+# encode msg
 msg = binascii.hexlify(bytes(msg, "utf-8"))
 
-if ((len(msg) // 2) + HEADER_SIZE) % 8 != 0:
-    IPHEADER_SIZE = (len(msg) // 2) + HEADER_SIZE
-    num_of_zeros = 8 - (IPHEADER_SIZE % 8)
-    added_zeros = num_of_zeros * "0"
-    msg_str = (msg.decode("utf-8")).replace(" ", "") + added_zeros
-else:
-    msg_str = (msg.decode("utf-8")).replace(" ", "")
+# Check for Padding
+# if ((len(msg) // 2) + HEADER_SIZE) % 8 != 0:
+#     IPHEADER_SIZE = (len(msg) // 2) + HEADER_SIZE
+#     num_of_zeros = 8 - (IPHEADER_SIZE % 8)
+#     added_zeros = num_of_zeros * "0"
+#     msg_str = (msg.decode("utf-8")).replace(" ", "") + added_zeros
+# else:
+#     msg_str = (msg.decode("utf-8")).replace(" ", "")
 
 # calculate total length of IP header, payload + 20 for header, convert to hex
 total_length_hex = "{:04X}".format((len(msg) // 2) + HEADER_SIZE)
@@ -72,7 +73,7 @@ header_str = (
     + DESTINATIONIP_HEX.decode("utf-8")
 )
 
-ip_header_str = (header_str + msg_str).replace(" ", "")
+ip_header_str = (header_str + msg.decode("utf-8")).replace(" ", "")
 
 IPHEADER = bytes(ip_header_str, "utf-8")
 
